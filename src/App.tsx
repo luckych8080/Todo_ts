@@ -45,10 +45,13 @@ const App: FC = () => {
 
   const CompleteTaskHandler = (taskToDelete: ITask): void => {
     // delete a task
-    console.log(taskToDelete)
-    const newTask = {taskName: taskToDelete.taskName, deadLine: taskToDelete.deadLine};
+    console.log(taskToDelete);
+    const newTask = {
+      taskName: taskToDelete.taskName,
+      deadLine: taskToDelete.deadLine,
+    };
 
-    setCompletedTodoList([...completedTodoList, newTask])
+    setCompletedTodoList([...completedTodoList, newTask]);
 
     setTodoList(
       todoList.filter((task) => {
@@ -58,19 +61,20 @@ const App: FC = () => {
   };
 
   const DisableTaskHandler = (taskNameToDelete: ITask): void => {
-
     setCompletedTodoList(
       completedTodoList.filter((task) => {
-        return task.taskName !== taskNameToDelete.taskName
+        return task.taskName !== taskNameToDelete.taskName;
       })
-    )
-  }
+    );
+  };
 
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  let styles = { backgroundColor: "grey" };
 
   return (
     <Container maxWidth="md" sx={{ marginTop: "10px" }}>
@@ -106,21 +110,22 @@ const App: FC = () => {
             />
           </CardContent>
           <CardContent>
-              <Table sx={{ minWidth: "100%" }} aria-label="customized table">
-                <TableHead></TableHead>
-                <TableBody>
-                  {todoList.map((task: ITask, key: number) => {
-                    return (
-                      <TodoTask
-                        key={key}
-                        task={task}
-                        completeTask={CompleteTaskHandler}
-                      />
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </CardContent>
+            <Table sx={{ minWidth: "100%" }} aria-label="customized table">
+              <TableHead></TableHead>
+              <TableBody>
+                {todoList.map((task: ITask, key: number) => {
+                  return (
+                    <TodoTask
+                      key={key}
+                      task={task}
+                      completeTask={CompleteTaskHandler}
+                      taskCheck={false}
+                    />
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </CardContent>
 
           <CardContent
             sx={{
@@ -136,16 +141,17 @@ const App: FC = () => {
           </CardContent>
 
           <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent sx={{ color: "#212121", backgroundColor: "grey" }}>
-              <Table sx={{ minWidth: "100%", color: "grey", backgroundColor: "grey" }} aria-label="customized table">
+            <CardContent>
+              <Table sx={{ minWidth: "100%" }} aria-label="customized table">
                 <TableHead></TableHead>
-                <TableBody>
+                <TableBody style={styles}>
                   {completedTodoList.map((task: ITask, key: number) => {
                     return (
                       <TodoTask
                         key={key}
                         task={task}
                         completeTask={DisableTaskHandler}
+                        taskCheck={true}
                       />
                     );
                   })}

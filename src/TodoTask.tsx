@@ -3,13 +3,15 @@ import { ITask } from "./Interfaces";
 
 import { TableRow, TableCell, IconButton } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import CheckIcon from '@mui/icons-material/Check';
 
 interface Props {
   task: ITask;
   completeTask(taskNameToDelete: ITask): void;
+  taskCheck: boolean;
 }
 
-const TodoTask = ({ task, completeTask }: Props) => {
+const TodoTask = ({ task, completeTask, taskCheck }: Props) => {
   return (
     <TableRow>
       <TableCell align="left">{task.taskName}</TableCell>
@@ -20,7 +22,7 @@ const TodoTask = ({ task, completeTask }: Props) => {
             completeTask(task);
           }}
         >
-          <CancelIcon />
+          {taskCheck ? <CancelIcon />: <CheckIcon />}
         </IconButton>
       </TableCell>
     </TableRow>

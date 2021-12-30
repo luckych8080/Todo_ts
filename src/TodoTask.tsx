@@ -6,7 +6,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 interface Props {
   task: ITask;
-  completeTask(taskNameToDelete: string): void;
+  completeTask(taskNameToDelete: ITask): void;
 }
 
 const TodoTask = ({ task, completeTask }: Props) => {
@@ -17,7 +17,7 @@ const TodoTask = ({ task, completeTask }: Props) => {
       <TableCell align="right">
         <IconButton
           onClick={() => {
-            completeTask(task.taskName);
+            completeTask(task);
           }}
         >
           <CancelIcon />

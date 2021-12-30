@@ -1,7 +1,23 @@
 import React, { ChangeEvent, FC, useState } from "react";
-import "./App.css";
+// import "./App.css";
 import { ITask } from "./Interfaces";
 import TodoTask from "./TodoTask";
+
+import {
+  Card,
+  Paper,
+  CardContent,
+  CardActions,
+  Container,
+  TextField,
+  Collapse,
+} from "@mui/material";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddIcon from "@mui/icons-material/Add";
+import { IconButton } from "@mui/material";
+
+
 
 const App: FC = () => {
   const [task, setTask] = useState<string>("");
@@ -28,39 +44,87 @@ const App: FC = () => {
 
   const CompleteTaskHandler = (taskNameToDelete: string): void => {
     // delete a task
-    setTodoList(todoList.filter((task) => {
-      return task.taskName !== taskNameToDelete
-    }))
-  }
+    setTodoList(
+      todoList.filter((task) => {
+        return task.taskName !== taskNameToDelete;
+      })
+    );
+  };
 
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   return (
-    <div className="App">
-      <div className="header">
-        <div className="inputContainer">
-          <input
-            type="text"
-            name="task"
-            placeholder="Task..."
-            value={task}
-            onChange={ChangeHandler}
-          />
-          <input
-            type="number"
-            name="deadline"
-            placeholder="DeadLine (in Days)..."
-            value={deadLine}
-            onChange={ChangeHandler}
-          />
-        </div>
-        <button onClick={AddTodoHandler}>Add Task</button>
-      </div>
-      <div className="todoList">
-        {todoList.map((task: ITask, key: number) => {
-          return <TodoTask key={key} task={task} completeTask={CompleteTaskHandler} />;
-        })}
-      </div>
-    </div>
+    <Container maxWidth="sm" sx={{ marginTop: "10px" }}>
+      <Paper elevation={3}>
+        <Card>
+          <CardContent
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "25ch" },
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <IconButton aria-label="add" onClick={AddTodoHandler}>
+              <AddIcon fontSize="large" />
+            </IconButton>
+            <TextField
+              id="outlined-task-input"
+              label="Task"
+              type="text"
+              name="task"
+              value={task}
+              onChange={ChangeHandler}
+            />
+            <TextField
+              id="outlined-deadline-input"
+              label="Deadline"
+              type="number"
+              name="deadline"
+              value={deadLine}
+              onChange={ChangeHandler}
+            />
+          </CardContent>
+
+          <CardContent  sx={{
+              "& .MuiTextField-root": { m: 1, width: "25ch" },
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+            <IconButton
+              // expand={expanded}
+              onClick={handleExpandClick}
+              
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          </CardContent>
+
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+              <div className="todoList">
+                {todoList.map((task: ITask, key: number) => {
+                  return (
+                    <TodoTask
+                      key={key}
+                      task={task}
+                      completeTask={CompleteTaskHandler}
+                    />
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Collapse>
+        </Card>
+      </Paper>
+    </Container>
   );
 };
 

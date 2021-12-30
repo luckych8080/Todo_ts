@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useState } from "react";
-// import "./App.css";
+
 import { ITask } from "./Interfaces";
 import TodoTask from "./TodoTask";
 
@@ -7,17 +7,17 @@ import {
   Card,
   Paper,
   CardContent,
-  CardActions,
   Container,
   TextField,
   Collapse,
+  TableBody,
+  Table,
+  TableHead,
+  IconButton,
 } from "@mui/material";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
-import { IconButton } from "@mui/material";
-
-
 
 const App: FC = () => {
   const [task, setTask] = useState<string>("");
@@ -58,7 +58,7 @@ const App: FC = () => {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ marginTop: "10px" }}>
+    <Container maxWidth="md" sx={{ marginTop: "10px" }}>
       <Paper elevation={3}>
         <Card>
           <CardContent
@@ -91,35 +91,35 @@ const App: FC = () => {
             />
           </CardContent>
 
-          <CardContent  sx={{
+          <CardContent
+            sx={{
               "& .MuiTextField-root": { m: 1, width: "25ch" },
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-            }}>
-            <IconButton
-              // expand={expanded}
-              onClick={handleExpandClick}
-              
-              aria-label="show more"
-            >
+            }}
+          >
+            <IconButton onClick={handleExpandClick} aria-label="show more">
               <ExpandMoreIcon />
             </IconButton>
           </CardContent>
 
           <Collapse in={expanded} timeout="auto" unmountOnExit>
             <CardContent>
-              <div className="todoList">
-                {todoList.map((task: ITask, key: number) => {
-                  return (
-                    <TodoTask
-                      key={key}
-                      task={task}
-                      completeTask={CompleteTaskHandler}
-                    />
-                  );
-                })}
-              </div>
+              <Table sx={{ minWidth: "100%" }} aria-label="customized table">
+                <TableHead></TableHead>
+                <TableBody>
+                  {todoList.map((task: ITask, key: number) => {
+                    return (
+                      <TodoTask
+                        key={key}
+                        task={task}
+                        completeTask={CompleteTaskHandler}
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
             </CardContent>
           </Collapse>
         </Card>

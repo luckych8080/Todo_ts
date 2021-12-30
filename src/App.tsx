@@ -18,6 +18,7 @@ import {
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddIcon from "@mui/icons-material/Add";
+import NavBar from "./NavBar";
 
 const App: FC = () => {
   const [task, setTask] = useState<string>("");
@@ -68,100 +69,101 @@ const App: FC = () => {
     );
   };
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  let styles = { backgroundColor: "grey" };
-
   return (
-    <Container maxWidth="md" sx={{ marginTop: "10px" }}>
-      <Paper elevation={3}>
-        <Card>
-          <CardContent
-            component="form"
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "25ch" },
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <IconButton aria-label="add" onClick={AddTodoHandler}>
-              <AddIcon fontSize="large" />
-            </IconButton>
-            <TextField
-              id="outlined-task-input"
-              label="Task"
-              type="text"
-              name="task"
-              value={task}
-              onChange={ChangeHandler}
-            />
-            <TextField
-              id="outlined-deadline-input"
-              label="Deadline"
-              type="number"
-              name="deadline"
-              value={deadLine}
-              onChange={ChangeHandler}
-            />
-          </CardContent>
-          <CardContent>
-            <Table sx={{ minWidth: "100%" }} aria-label="customized table">
-              <TableHead></TableHead>
-              <TableBody>
-                {todoList.map((task: ITask, key: number) => {
-                  return (
-                    <TodoTask
-                      key={key}
-                      task={task}
-                      completeTask={CompleteTaskHandler}
-                      taskCheck={false}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </CardContent>
-
-          <CardContent
-            sx={{
-              "& .MuiTextField-root": { m: 1, width: "25ch" },
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <IconButton onClick={handleExpandClick} aria-label="show more">
-              <ExpandMoreIcon />
-            </IconButton>
-          </CardContent>
-
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
+    <>
+      <NavBar />
+      <Container maxWidth="md" sx={{ marginTop: "10px" }}>
+        <Paper elevation={3}>
+          <Card>
+            <CardContent
+              component="form"
+              sx={{
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <IconButton aria-label="add" onClick={AddTodoHandler}>
+                <AddIcon fontSize="large" />
+              </IconButton>
+              <TextField
+                id="outlined-task-input"
+                label="Task"
+                type="text"
+                name="task"
+                value={task}
+                onChange={ChangeHandler}
+              />
+              <TextField
+                id="outlined-deadline-input"
+                label="Deadline"
+                type="number"
+                name="deadline"
+                value={deadLine}
+                onChange={ChangeHandler}
+              />
+            </CardContent>
             <CardContent>
               <Table sx={{ minWidth: "100%" }} aria-label="customized table">
                 <TableHead></TableHead>
-                <TableBody style={styles}>
-                  {completedTodoList.map((task: ITask, key: number) => {
+                <TableBody>
+                  {todoList.map((task: ITask, key: number) => {
                     return (
                       <TodoTask
                         key={key}
                         task={task}
-                        completeTask={DisableTaskHandler}
-                        taskCheck={true}
+                        completeTask={CompleteTaskHandler}
+                        taskCheck={false}
                       />
                     );
                   })}
                 </TableBody>
               </Table>
             </CardContent>
-          </Collapse>
-        </Card>
-      </Paper>
-    </Container>
+
+            <CardContent
+              sx={{
+                "& .MuiTextField-root": { m: 1, width: "25ch" },
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <IconButton onClick={handleExpandClick} aria-label="show more">
+                <ExpandMoreIcon />
+              </IconButton>
+            </CardContent>
+
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent>
+                <Table sx={{ minWidth: "100%" }} aria-label="customized table">
+                  <TableHead></TableHead>
+                  <TableBody style={{ backgroundColor: "grey" }}>
+                    {completedTodoList.map((task: ITask, key: number) => {
+                      return (
+                        <TodoTask
+                          key={key}
+                          task={task}
+                          completeTask={DisableTaskHandler}
+                          taskCheck={true}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Collapse>
+          </Card>
+        </Paper>
+      </Container>
+    </>
   );
 };
 
